@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -25,7 +24,7 @@ public class Topic {
     private String name;
 
     @Setter(AccessLevel.PRIVATE)
-    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY,  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<Article> articles = new ArrayList<>();
 
     public void addArticle(Article article) {

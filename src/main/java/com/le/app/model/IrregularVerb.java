@@ -5,10 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -24,35 +21,35 @@ public class IrregularVerb {
     @Column(name = "irregularverb_id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Infinitive cannot be blank")
     @Column(name = "infinitive", nullable = false)
     private String infinitive;
 
     @Column(name = "transcription_infinitive")
     private String transcriptionInfinitive;
 
-    @NotBlank
+    @NotBlank(message = "Past tense cannot be blank")
     @Column(name = "past_tense", nullable = false)
     private String pastTense;
 
     @Column(name = "transcription_past_tense")
     private String transcriptionPastTense;
 
-    @NotBlank
+    @NotBlank(message = "Past Participle cannot be blank")
     @Column(name = "past_participle", nullable = false)
     private String pastParticiple;
 
     @Column(name = "transcription_past_participle")
     private String transcriptionPastParticiple;
 
-    @NotBlank
+    @NotBlank(message = "Translation cannot be blank")
     @Column(name = "translation", nullable = false)
     private String translation;
 
     @JsonIgnore
     @Setter(AccessLevel.PRIVATE)
     @ManyToMany(mappedBy = "irregularVerbsLearnt", fetch = FetchType.LAZY)
-    private Set <User> users = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
 //    @JsonIgnore
 //    @Setter(AccessLevel.PRIVATE)

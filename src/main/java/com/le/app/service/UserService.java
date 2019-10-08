@@ -17,27 +17,28 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Service
+// @Cacheable
 public class UserService {
     @Autowired
     private IrregularVerbService irregularVerbService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional()
     public User register(UserDto userDto) {
         User user = userDto.toUser();
 
@@ -48,8 +49,8 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(userRoles);
         user.setStatus(Status.ACTIVE);
-//        user.setCreated(LocalDateTime.now());
-//        user.setUpdated(LocalDateTime.now());
+        user.setCreated(LocalDateTime.now());
+        user.setUpdated(LocalDateTime.now());
 
 
         User registeredUser = userRepository.save(user);
@@ -59,18 +60,21 @@ public class UserService {
         return registeredUser;
     }
 
+    @Transactional(readOnly = true)
     public List<User> getAll() {
         List<User> result = userRepository.findAll();
         log.info("IN getAll - {} users found", result.size());
         return result;
     }
 
+    @Transactional(readOnly = true)
     public User findByUsername(String username) {
         User result = userRepository.findByUsername(username);
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
         return result;
     }
 
+    @Transactional(readOnly = true)
     public User findById(Long id) {
         User result = userRepository.findById(id).orElse(null);
 
@@ -83,7 +87,7 @@ public class UserService {
         return result;
     }
 
-
+    @Transactional()
     public void delete(Long id) {
         userRepository.deleteById(id);
         log.info("IN delete - user with id: {} successfully deleted");
@@ -116,14 +120,14 @@ public class UserService {
         return loginedUser;
     }
 
-     @Transactional
+    @Transactional
     public void addIrregularVerbToLearnt(Long id) {
         User loginedUser = getLoginedUser();
         IrregularVerb irregularVerb = irregularVerbService.findById(id).get();
         loginedUser.addIrregularVerbToLearnt(irregularVerb);
     }
 
-     @Transactional
+    @Transactional
     public void removeIrregularVerbFromLearnt(Long id) {
         User loginedUser = getLoginedUser();
         IrregularVerb irregularVerb = irregularVerbService.findById(id).get();

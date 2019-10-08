@@ -10,16 +10,17 @@
     </parent>
 
     <groupId>com.le</groupId>
-    <artifactId>vocabulary</artifactId>
+    <artifactId>vocabulary_be</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>le20190910</name>
+    <name>vocabulary</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>11</java.version>
-        <!--<java.version>1.8</java.version>-->
         <mysql.connetor.version>8.0.15</mysql.connetor.version>
         <jsonwebtoken.version>0.8.0</jsonwebtoken.version>
+        <apache.poi.version>4.1.0</apache.poi.version>
+        <apache.poi-ooxml.version>4.1.0</apache.poi-ooxml.version>
     </properties>
 
     <dependencies>
@@ -36,7 +37,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
 
         <!-- Liquibase -->
         <!--<dependency>-->
@@ -65,6 +65,19 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- to parse Excel file -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${apache.poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${apache.poi-ooxml.version}</version>
+        </dependency>
+
 
         <!-- Spring test -->
         <dependency>
@@ -95,7 +108,6 @@
             <optional>true</optional>
         </dependency>
 
-
     </dependencies>
 
     <build>
@@ -111,58 +123,3 @@
 </project>
 
 
-        <!--<dependencies>-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-web</artifactId>-->
-        <!--</dependency>-->
-
-        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-        <!--&lt;!&ndash;<groupId>com.jayway.jsonpath</groupId>&ndash;&gt;-->
-        <!--&lt;!&ndash;<artifactId>json-path</artifactId>&ndash;&gt;-->
-        <!--&lt;!&ndash;<scope>test</scope>&ndash;&gt;-->
-        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>mysql</groupId>-->
-        <!--<artifactId>mysql-connector-java</artifactId>-->
-        <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-data-rest</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-test</artifactId>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
-        <!--<optional>true</optional>-->
-        <!--</dependency>-->
-        <!--</dependencies>-->
-
-        <!--<build>-->
-        <!--<plugins>-->
-        <!--<plugin>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-        <!--</plugin>-->
-        <!--</plugins>-->
-        <!--</build>-->
-
-        <!--</project>-->

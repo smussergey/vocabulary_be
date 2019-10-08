@@ -5,14 +5,10 @@ import io.jsonwebtoken.*;
 import com.le.app.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +19,6 @@ import java.util.List;
 
 /**
  * Util class that provides methods for generation, validation, etc. of JWT token.
- *
  */
 
 @Component
@@ -35,16 +30,9 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
 
-
     @Autowired
-    private JwtUserDetailsService userDetailsService; //the same as UserDetailsService
-    //private UserDetailsService userDetailsService;
+    private JwtUserDetailsService userDetailsService;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder;
-    }
 
     @PostConstruct
     protected void init() {

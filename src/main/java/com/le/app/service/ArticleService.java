@@ -12,13 +12,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
-    private final ArticleRepository articleRepository;
+    @Autowired
     private TopicService topicService;
+    private final ArticleRepository articleRepository;
 
     @Autowired
-    public ArticleService(ArticleRepository articleRepository, TopicService topicService) {
+    public ArticleService(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
-        this.topicService = topicService;
+
     }
 
     public List<ArticleDto> findAllArticleDtosByTopicName(String name) {

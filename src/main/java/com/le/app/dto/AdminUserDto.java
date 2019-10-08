@@ -5,8 +5,6 @@ import com.le.app.model.Status;
 import com.le.app.model.User;
 import lombok.Data;
 
-
-
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AdminUserDto {

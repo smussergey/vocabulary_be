@@ -1,7 +1,6 @@
 package com.le.app.rest;
 
 import com.le.app.dto.ArticleDto;
-import com.le.app.dto.IrregularVerbDto;
 import com.le.app.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

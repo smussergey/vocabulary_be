@@ -2,7 +2,11 @@ package com.le.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,31 +27,30 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Username cannot be blank")
     @Column(name = "username", nullable = false)
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "First name cannot be blank")
     @Column(name = "first_name", nullable = false)
     private String firstName;
-
 
     @Column(name = "last_name")
     private String lastName;
 
-    @NotBlank
+    // @Email(message = "Email should be valid") ToDo this should be uncommitted
     @Column(name = "email", nullable = false)
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password cannot be blank")
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Setter(AccessLevel.NONE)
+    @CreatedDate
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
-    @Setter(AccessLevel.NONE)
+    @LastModifiedDate
     @Column(name = "updated", nullable = false)
     private LocalDateTime updated;
 
@@ -55,7 +58,6 @@ public class User {
     @Column(name = "status", nullable = false)
     private Status status;
 
-  //  @Setter(AccessLevel.PRIVATE)
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},

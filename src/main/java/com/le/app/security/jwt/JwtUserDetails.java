@@ -1,14 +1,10 @@
 package com.le.app.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.le.app.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
-
 
 
 public class JwtUserDetails implements UserDetails {
@@ -20,7 +16,7 @@ public class JwtUserDetails implements UserDetails {
     private final String password;
     private final String email;
     private final boolean enabled;
-   // private final LocalDate lastPasswordResetDate;
+    // private final LocalDate lastPasswordResetDate;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtUserDetails(
@@ -31,7 +27,7 @@ public class JwtUserDetails implements UserDetails {
             String email,
             String password, Collection<? extends GrantedAuthority> authorities,
             boolean enabled//,
-           // LocalDate lastPasswordResetDate
+            // LocalDate lastPasswordResetDate
     ) {
         this.id = id;
         this.username = username;

@@ -28,16 +28,15 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/auth")
 public class AuthenticationRestController {
-
+    @Autowired
+    private UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserService userService;
 
     @Autowired
-    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
+    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -67,9 +66,8 @@ public class AuthenticationRestController {
 
     @RequestMapping(path = "/register", method = {RequestMethod.POST,
             RequestMethod.PUT})
-    // redo this method, hibernate makes additional query to get id? which we have
     public ResponseEntity<?> register(@Valid @RequestBody UserDto userDto,
-                                            Errors errors) {
+                                      Errors errors) {
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().
                     body(ValidationErrorBuilder.fromBindingErrors(errors));
@@ -90,8 +88,19 @@ public class AuthenticationRestController {
 
     @ExceptionHandler // it handles bad requests
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ValidationError handleException(Exception exception) {
+    public ValidationError handleValidationExceptions(Exception exception) {
         return new ValidationError(exception.getMessage());
     }
 
 }
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public Map<String, String> handleValidationExceptions(
+//            MethodArgumentNotValidException ex) {
+//        Map<String, String> errors = new HashMap<>();
+//        ex.getBindingResult().getAllErrors().forEach((error) -> {
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+//        });
+//        return errors;

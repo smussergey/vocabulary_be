@@ -15,7 +15,7 @@ public class UserProfileDto {
     private String email;
     private String password;
 
-    public User toUser(){
+    public User toUser() {
         User user = new User();
         user.setId(id);
         user.setUsername(username);

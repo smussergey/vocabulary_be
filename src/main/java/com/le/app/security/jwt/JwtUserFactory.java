@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-
 public final class JwtUserFactory {
-
-    public JwtUserFactory() {
-    }
 
     public static JwtUserDetails create(User user) {
         return new JwtUserDetails(
@@ -27,7 +23,7 @@ public final class JwtUserFactory {
                 user.getPassword(),
                 mapToGrantedAuthorities(new ArrayList<>(user.getRoles())),
                 user.getStatus().equals(Status.ACTIVE)//,
-               // user.getUpdated()
+                // user.getUpdated()
         );
     }
 

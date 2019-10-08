@@ -4,12 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.le.app.model.IrregularVerb;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IrregularVerbDto {

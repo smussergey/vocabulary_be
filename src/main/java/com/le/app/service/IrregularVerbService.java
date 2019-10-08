@@ -4,10 +4,13 @@ import com.le.app.dto.IrregularVerbDto;
 import com.le.app.model.IrregularVerb;
 import com.le.app.model.User;
 import com.le.app.repository.IrregularVerbRepository;
+import com.le.app.service.ExcelFileReader.IrregularVerbsExcelFileReader;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +18,12 @@ import java.util.stream.Collectors;
 
 
 @Service
+// @Cacheable
 public class IrregularVerbService {
     @Autowired
     private UserService userService;
+    @Autowired
+    private IrregularVerbsExcelFileReader excelFileReader;
     private final IrregularVerbRepository irregularVerbRepository;
 
 
@@ -27,6 +33,7 @@ public class IrregularVerbService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<IrregularVerbDto> findAll() {
 
         if (!userService.isRequestFromLoginedUser()) {
@@ -46,7 +53,6 @@ public class IrregularVerbService {
     private List<IrregularVerb> findAllForNotLoginedUser() {
         return irregularVerbRepository.findAll();
     }
-
 
     private List<IrregularVerbDto> findAllForLoginedUser() {
         User loginedUser = userService.getLoginedUser();
@@ -69,41 +75,36 @@ public class IrregularVerbService {
     }
 
 
+    @Transactional(readOnly = true)
     public Optional<IrregularVerb> findById(Long id) {
         return irregularVerbRepository.findById(id);
     }
 
+    @Transactional()
     public IrregularVerb save(IrregularVerb irregularVerb) {
         return irregularVerbRepository.save(irregularVerb);
     }
 
-
-//    public void addIrregularVerbToLearntByUser(Long id) {
-//        //User loginedUser = userService.getLoginedUser();
-//        User loginedUser = userService.findById(1L);
-//        IrregularVerb learntIrregularVerb = findById(id).get();
-//        learntIrregularVerb.addUser(loginedUser);
-//
-//        //loginedUser.addIrregularVerbToLearnt(irregularVerbRepository.findById(id).get());
-//    }
-
-
-//    public void removeIrregularVerbFromLearntByUser(Long id) {
-//        //User loginedUser = userService.getLoginedUser();
-//        //User loginedUser = userService.findById(1L);
-//        //loginedUser.removeIrregularVerbFromLearnt(irregularVerbRepository.findById(id).get());
-//        User loginedUser = userService.findById(1L);
-//        IrregularVerb learntIrregularVerb = findById(id).get();
-//        learntIrregularVerb.removeUser(loginedUser);
-//    }
-
+    @Transactional()
     public void saveAll(List<IrregularVerb> irregularVerbs) {
         irregularVerbRepository.saveAll(irregularVerbs);
     }
 
+    @Transactional()
     public void deleteById(Long id) {
         irregularVerbRepository.deleteById(id);
     }
 
+    public List<IrregularVerb> getAllFromExcelFile() {
+        List<IrregularVerb> irregularVerbs = null;
+        try {
+            irregularVerbs = excelFileReader.parseExcelFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        }
+        return irregularVerbs;
+    }
 
 }

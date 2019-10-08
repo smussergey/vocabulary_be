@@ -21,18 +21,6 @@ public class UserRestController {
         this.userService = userService;
     }
 
-
-//    @GetMapping("/users/{id}") // Check whether user is allowed to get info about himself, not other users
-//    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
-//        User user = userService.findById(id);
-//
-//        if (user == null) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        UserDto result = UserDto.fromUser(user);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-
     @GetMapping("/users/profiles")
     public ResponseEntity<UserDto> getUserProfile() {
         User loginedUser = userService.getLoginedUser();
@@ -45,20 +33,15 @@ public class UserRestController {
     }
 
 
-
-    @PostMapping(path = "/users/iv/{id}") //26:50 was redone using dirty checking
+    @PostMapping(path = "/users/iv/{id}")
     public void addIrregularVerbToLearntByLoginedUser(@PathVariable Long id) {
-        // System.out.println("___________________________________________________id=" + id);
         userService.addIrregularVerbToLearnt(id);
     }
 
     @DeleteMapping(path = "/users/iv/{id}")
     public void removeIrregularVerbFromLearntByLoginedUse(@PathVariable Long id) {
-        // System.out.println("___________________________________________________id=" + id);
         userService.removeIrregularVerbFromLearnt(id);
     }
-
-
 
 
     @ExceptionHandler // it handles bad requests
