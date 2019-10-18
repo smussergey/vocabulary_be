@@ -1,4 +1,4 @@
-package com.le.app.dto;
+package com.le.app.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.le.app.model.IrregularVerb;

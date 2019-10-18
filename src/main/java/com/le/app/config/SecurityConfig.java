@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String AUTH_ENDPOINT = "/api/auth/**";
     private static final String ADMIN_ENDPOINT = "/api/admin/**";
 
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -46,8 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(GENERAL_CONTENT_ENDPOINT).permitAll()
                 .antMatchers(AUTH_ENDPOINT).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .anyRequest().permitAll()
-                // .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

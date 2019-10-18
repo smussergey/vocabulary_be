@@ -1,4 +1,4 @@
-package com.le.app.dto;
+package com.le.app.model.dto;
 
 import lombok.Data;
 

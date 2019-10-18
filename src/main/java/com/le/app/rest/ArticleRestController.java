@@ -1,6 +1,7 @@
 package com.le.app.rest;
 
-import com.le.app.dto.ArticleDto;
+import com.le.app.model.dto.ArticlePreview;
+import com.le.app.security.jwt.JwtTokenProvider;
 import com.le.app.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ArticleRestController {
     }
 
     @GetMapping("/content/articles/{topicname}")
-    public ResponseEntity<List<ArticleDto>> getAllArticlesGeneral(@PathVariable(name = "topicname") String topicname) {
-        return ResponseEntity.ok(articleService.findAllArticleDtosByTopicName(topicname));
+    public ResponseEntity<List<ArticlePreview>> getAllArticlesPreviewsByTopic(@PathVariable(name = "topicname") String name) {
+        return ResponseEntity.ok(articleService.findAllArticlePreviewsByTopicName(name));
     }
 }

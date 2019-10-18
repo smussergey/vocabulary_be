@@ -1,4 +1,4 @@
-package com.le.app.service.ExcelFileReader;
+package com.le.app.service.excelfilereader;
 
 import com.le.app.model.IrregularVerb;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class IrregularVerbsExcelFileReader {
-    public static final String FILE_PATH = "./irregularVerbs.xlsx";
+    public static final String FILE_PATH = "./InitialData.xlsx";
 
     public ArrayList<IrregularVerb> parseExcelFile() throws IOException, InvalidFormatException {
 
@@ -37,7 +37,7 @@ public class IrregularVerbsExcelFileReader {
         */
 
         //Getting the Sheet at index zero
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet sheet = workbook.getSheet("IrregularVerbs");
 
         // Create a DataFormatter to format and get each cell's value as String
         DataFormatter dataFormatter = new DataFormatter();

@@ -1,4 +1,4 @@
-package com.le.app.service.ExcelFileReader;
+package com.le.app.service.excelfilereader;
 
 
 import com.le.app.model.IrregularVerb;

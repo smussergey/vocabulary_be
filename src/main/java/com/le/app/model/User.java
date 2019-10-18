@@ -38,7 +38,7 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    // @Email(message = "Email should be valid") ToDo this should be uncommitted
+    @Email(message = "Email should be valid")
     @Column(name = "email", nullable = false)
     private String email;
 
@@ -46,11 +46,11 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @CreatedDate
+    // @CreatedDate
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
-    @LastModifiedDate
+    //@LastModifiedDate
     @Column(name = "updated", nullable = false)
     private LocalDateTime updated;
 
@@ -58,7 +58,7 @@ public class User {
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})

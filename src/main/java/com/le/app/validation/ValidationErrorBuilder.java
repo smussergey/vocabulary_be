@@ -5,12 +5,12 @@ import org.springframework.validation.ObjectError;
 
 public class ValidationErrorBuilder {
     public static ValidationError fromBindingErrors(Errors errors) {
-        ValidationError error = new ValidationError("Validation failed. "
+        ValidationError validationError = new ValidationError("Validation failed. "
                 + errors.getErrorCount() + " error(s)");
         for (ObjectError objectError : errors.getAllErrors()) {
-            error.addValidationError(objectError.getDefaultMessage());
+            validationError.addValidationErrorMessage(objectError.getDefaultMessage());
         }
-        return error;
+        return validationError;
     }
 }
 

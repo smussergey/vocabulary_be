@@ -7,19 +7,19 @@ import java.util.List;
 
 public class ValidationError {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> errors = new ArrayList<>();
+    private List<String> errorMessageList = new ArrayList<>();
     private final String errorMessage;
 
     public ValidationError(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
-    public void addValidationError(String error) {
-        errors.add(error);
+    public void addValidationErrorMessage(String error) {
+        errorMessageList.add(error);
     }
 
     public List<String> getErrors() {
-        return errors;
+        return errorMessageList;
     }
 
     public String getErrorMessage() {

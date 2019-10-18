@@ -1,6 +1,6 @@
 package com.le.app.rest;
 
-import com.le.app.dto.IrregularVerbDto;
+import com.le.app.model.dto.IrregularVerbDto;
 import com.le.app.model.IrregularVerb;
 import com.le.app.service.IrregularVerbService;
 import com.le.app.service.UserService;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -64,15 +65,23 @@ public class IrregularVerbRestController {
         return ResponseEntity.created(location).build();
     }
 
+    @PostMapping(path = "/iv/downloadfiletoparse")
+    public ResponseEntity<String> downloadAndParseFile(@RequestParam ("file") MultipartFile file) {
+        System.out.println("-----------------From downloadAndParseFile file = " + file.getOriginalFilename());
+        return ResponseEntity.ok("from downloadAndParseFile" + file.getOriginalFilename());
+
+
+    }
+
     @PostMapping(path = "/iv/save/allfromfile")
     public ResponseEntity<String> getAllFromExcelFile() {
         try {
             List<IrregularVerb> irregularVerbs = null;
-            irregularVerbs = irregularVerbService.getAllFromExcelFile();
+            irregularVerbs = irregularVerbService.ParseAllFromExcelFile();
             irregularVerbService.saveAll(irregularVerbs);
-            return ResponseEntity.ok("Saved all from Exel file");
+            return ResponseEntity.ok("Saved all from Excel file");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Can not parse Excel file");
+            return ResponseEntity.badRequest().body("Can not parse Excel file: " + e); // ToDo should be improved
         }
     }
 

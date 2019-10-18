@@ -1,8 +1,8 @@
 package com.le.app.rest;
 
 
-import com.le.app.dto.AuthenticationRequestDto;
-import com.le.app.dto.UserDto;
+import com.le.app.model.dto.AuthenticationRequestDto;
+import com.le.app.model.dto.UserRegisterDto;
 import com.le.app.model.User;
 import com.le.app.security.jwt.JwtTokenProvider;
 import com.le.app.service.UserService;
@@ -44,18 +44,12 @@ public class AuthenticationRestController {
         try {
             String username = requestDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
-            User user = userService.findByUsername(username);
+            User user = userService.findByUsernameWithoutRoles(username);
 
             if (user == null) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");
             }
-
-            String token = jwtTokenProvider.createToken(username, user.getRoles());
-
-            Map<Object, Object> response = new HashMap<>();
-            response.put("username", username);
-            response.put("userFirstName", user.getFirstName());
-            response.put("token", token);
+            Map<Object, Object> response = createResponse(user);
 
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
@@ -64,25 +58,30 @@ public class AuthenticationRestController {
 
     }
 
-    @RequestMapping(path = "/register", method = {RequestMethod.POST,
-            RequestMethod.PUT})
-    public ResponseEntity<?> register(@Valid @RequestBody UserDto userDto,
+
+    @PostMapping(path = "/register")
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto userRegisterDto,
                                       Errors errors) {
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().
                     body(ValidationErrorBuilder.fromBindingErrors(errors));
         }
 
-        User resultUser = userService.register(userDto);
+        User registeredUser = userService.register(userRegisterDto);
 
-        String token = jwtTokenProvider.createToken(resultUser.getUsername(), resultUser.getRoles());
+        Map<Object, Object> response = createResponse(registeredUser);
+        return ResponseEntity.ok(response);
+    }
+
+    private Map<Object, Object> createResponse(User user) {
+        String token = jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
 
         Map<Object, Object> response = new HashMap<>();
-        response.put("username", resultUser.getUsername());
-        response.put("userFirstName", resultUser.getFirstName());
+        response.put("username", user.getUsername());
+        response.put("userFirstName", user.getFirstName());
         response.put("token", token);
 
-        return ResponseEntity.ok(response);
+        return response;
     }
 
 
@@ -93,14 +92,3 @@ public class AuthenticationRestController {
     }
 
 }
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public Map<String, String> handleValidationExceptions(
-//            MethodArgumentNotValidException ex) {
-//        Map<String, String> errors = new HashMap<>();
-//        ex.getBindingResult().getAllErrors().forEach((error) -> {
-//            String fieldName = ((FieldError) error).getField();
-//            String errorMessage = error.getDefaultMessage();
-//            errors.put(fieldName, errorMessage);
-//        });
-//        return errors;

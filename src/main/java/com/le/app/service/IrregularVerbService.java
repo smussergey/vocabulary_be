@@ -1,10 +1,10 @@
 package com.le.app.service;
 
-import com.le.app.dto.IrregularVerbDto;
+import com.le.app.model.dto.IrregularVerbDto;
 import com.le.app.model.IrregularVerb;
 import com.le.app.model.User;
 import com.le.app.repository.IrregularVerbRepository;
-import com.le.app.service.ExcelFileReader.IrregularVerbsExcelFileReader;
+import com.le.app.service.excelfilereader.IrregularVerbsExcelFileReader;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+@Transactional
 @Service
 // @Cacheable
 public class IrregularVerbService {
@@ -55,7 +56,7 @@ public class IrregularVerbService {
     }
 
     private List<IrregularVerbDto> findAllForLoginedUser() {
-        User loginedUser = userService.getLoginedUser();
+        User loginedUser = userService.findLoginedUser();
 
         List<IrregularVerb> irregularVerbsLearnt = new ArrayList<>(loginedUser.getIrregularVerbsLearnt());
         System.out.println("irregularVerbsLearnt = " + irregularVerbsLearnt.size());
@@ -75,7 +76,7 @@ public class IrregularVerbService {
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional //(readOnly = true)
     public Optional<IrregularVerb> findById(Long id) {
         return irregularVerbRepository.findById(id);
     }
@@ -95,7 +96,7 @@ public class IrregularVerbService {
         irregularVerbRepository.deleteById(id);
     }
 
-    public List<IrregularVerb> getAllFromExcelFile() {
+    public List<IrregularVerb> ParseAllFromExcelFile() {
         List<IrregularVerb> irregularVerbs = null;
         try {
             irregularVerbs = excelFileReader.parseExcelFile();
