@@ -8,7 +8,7 @@ public class ValidationErrorBuilder {
         ValidationError validationError = new ValidationError("Validation failed. "
                 + errors.getErrorCount() + " error(s)");
         for (ObjectError objectError : errors.getAllErrors()) {
-            validationError.addValidationErrorMessage(objectError.getDefaultMessage());
+            validationError.addToErrorsList(objectError.getDefaultMessage());
         }
         return validationError;
     }

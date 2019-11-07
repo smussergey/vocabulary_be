@@ -28,7 +28,7 @@ public class User {
     private Long id;
 
     @NotBlank(message = "Username cannot be blank")
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @NotBlank(message = "First name cannot be blank")
@@ -39,18 +39,16 @@ public class User {
     private String lastName;
 
     @Email(message = "Email should be valid")
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
     @Column(name = "password", nullable = false)
     private String password;
 
-    // @CreatedDate
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
-    //@LastModifiedDate
     @Column(name = "updated", nullable = false)
     private LocalDateTime updated;
 

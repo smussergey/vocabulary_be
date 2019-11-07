@@ -1,4 +1,4 @@
-package com.le.app.service.storage;
+package com.le.app.util.storage;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

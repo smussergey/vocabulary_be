@@ -46,8 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(GENERAL_CONTENT_ENDPOINT).permitAll()
                 .antMatchers(AUTH_ENDPOINT).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .anyRequest().authenticated()
+               // .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN") // ToDo uncomment it was done for tests
+                .antMatchers(ADMIN_ENDPOINT).permitAll() // ToDo delete it was done for tests
+//                .anyRequest().authenticated() // ToDo uncomment it was done for tests
+                .anyRequest().permitAll()  // ToDo delete it was done for tests
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

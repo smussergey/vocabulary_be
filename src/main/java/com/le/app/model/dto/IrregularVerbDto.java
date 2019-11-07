@@ -2,9 +2,13 @@ package com.le.app.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.le.app.model.IrregularVerb;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IrregularVerbDto {
     private Long id;
@@ -15,7 +19,7 @@ public class IrregularVerbDto {
     private String pastParticiple;
     private String transcriptionPastParticiple;
     private String translation;
-    public boolean isLearnt = false;
+    private boolean learnt = false;
 
     public IrregularVerb toIrregularVerb() {
         IrregularVerb irregularVerb = new IrregularVerb();

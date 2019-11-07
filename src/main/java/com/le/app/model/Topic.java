@@ -20,7 +20,7 @@ public class Topic {
     private Long id;
 
     @NotBlank
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Setter(AccessLevel.PRIVATE)
@@ -33,7 +33,7 @@ public class Topic {
     }
 
     public void addArticles(List<Article> articles) {
-        articles.addAll(articles);
+        this.articles.addAll(articles);
         articles.forEach(article -> article.setTopic(this));
     }
 

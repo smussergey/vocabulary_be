@@ -24,8 +24,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class IrregularVerbRestController {
-    @Autowired
-    UserService userService;
+//    @Autowired
+//    UserService userService;
     private final IrregularVerbService irregularVerbService;
 
     @Autowired
@@ -76,7 +76,7 @@ public class IrregularVerbRestController {
     @PostMapping(path = "/iv/save/allfromfile")
     public ResponseEntity<String> getAllFromExcelFile() {
         try {
-            List<IrregularVerb> irregularVerbs = null;
+            List<IrregularVerb> irregularVerbs;
             irregularVerbs = irregularVerbService.ParseAllFromExcelFile();
             irregularVerbService.saveAll(irregularVerbs);
             return ResponseEntity.ok("Saved all from Excel file");

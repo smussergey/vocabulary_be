@@ -3,8 +3,6 @@ package com.le.app.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import com.le.app.model.User;
-
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 

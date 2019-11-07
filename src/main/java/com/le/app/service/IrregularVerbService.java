@@ -4,7 +4,7 @@ import com.le.app.model.dto.IrregularVerbDto;
 import com.le.app.model.IrregularVerb;
 import com.le.app.model.User;
 import com.le.app.repository.IrregularVerbRepository;
-import com.le.app.service.excelfilereader.IrregularVerbsExcelFileReader;
+import com.le.app.util.excelfilereader.IrregularVerbsExcelFileReader;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class IrregularVerbService {
             List<IrregularVerbDto> irregularVerbsDto;
             irregularVerbsDto = findAllForNotLoginedUser()
                     .stream()
-                    .map(irregularVerb -> IrregularVerbDto.fromIrregularVerb(irregularVerb))
+                    .map(IrregularVerbDto::fromIrregularVerb)
                     .collect(Collectors.toList());
             return irregularVerbsDto;
         } else {
@@ -59,7 +59,7 @@ public class IrregularVerbService {
         User loginedUser = userService.findLoginedUser();
 
         List<IrregularVerb> irregularVerbsLearnt = new ArrayList<>(loginedUser.getIrregularVerbsLearnt());
-        System.out.println("irregularVerbsLearnt = " + irregularVerbsLearnt.size());
+//        System.out.println("irregularVerbsLearnt = " + irregularVerbsLearnt.size());
         List<IrregularVerb> irregularVerbsAll = irregularVerbRepository.findAll();
 
         List<IrregularVerbDto> irregularVerbsDto = new ArrayList<>();

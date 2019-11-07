@@ -1,4 +1,4 @@
-package com.le.app.service.storage;
+package com.le.app.util.storage;
 
 public class StorageFileNotFoundException extends StorageException {
 

@@ -3,7 +3,7 @@ package com.le.app.service;
 import com.le.app.model.dto.UserProfileDto;
 import com.le.app.model.dto.UserRegisterDto;
 import com.le.app.model.IrregularVerb;
-import com.le.app.repository.UserWithSuchUsernameExistsException;
+import com.le.app.service.exception.UserWithSuchUsernameExistsException;
 import com.le.app.security.jwt.JwtUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import com.le.app.model.Role;
@@ -12,7 +12,6 @@ import com.le.app.model.User;
 import com.le.app.repository.RoleRepository;
 import com.le.app.repository.UserRepository;
 
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,22 +30,21 @@ import java.util.List;
 public class UserService {
     @Autowired
     private IrregularVerbService irregularVerbService;
-    //    @Autowired
-//    private BCryptPasswordEncoder passwordEncoder;
+
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+
     @Autowired
-    public UserService(UserRepository userRepository,
-                       RoleRepository roleRepository,
-                       BCryptPasswordEncoder passwordEncoder) {
+    public UserService(BCryptPasswordEncoder passwordEncoder,
+                       UserRepository userRepository,
+                       RoleRepository roleRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    //@Transactional()
     public User register(UserRegisterDto userRegisterDto) {
         User user = userRegisterDto.toUser();
 
@@ -103,7 +101,7 @@ public class UserService {
         return result;
     }
 
-    //@Transactional()
+
     public void delete(Long id) {
         userRepository.deleteById(id);
         log.info("IN delete - user with id: {} successfully deleted");
@@ -142,7 +140,7 @@ public class UserService {
         return userProfileDto;
     }
 
-    //@Transactional
+
     public void updateUserProfile(UserProfileDto newUserProfile) { // Todo handle password change
         log.info("IN updateUserProfile before findLoginedUser");
         User loginedUser = findLoginedUser();
@@ -151,7 +149,7 @@ public class UserService {
         if (isUsernameWasChanged(loginedUser, newUserProfile)
                 && isUpdatedUsernameNotUnique(newUserProfile.getUsername())) {
             log.info("IN updateUserProfile: " + "throw new UserWithSuchUsernameExistsException");
-            throw new UserWithSuchUsernameExistsException("User with such Username exists: " + newUserProfile.getUsername());
+            throw new UserWithSuchUsernameExistsException("User with such username: " + newUserProfile.getUsername() + " exists");
         } else {
             loginedUser.setUsername(newUserProfile.getUsername());
             loginedUser.setEmail(newUserProfile.getEmail());
@@ -176,23 +174,21 @@ public class UserService {
             return false;
         } else {
             log.info("IN isUpdatedUsernameNotUnique: " + true);
-            return true;}
+            return true;
         }
+    }
 
 
-
-
-    // @Transactional
     public void addIrregularVerbToLearnt(Long id) {
         User loginedUser = findLoginedUser();
-        IrregularVerb irregularVerb = irregularVerbService.findById(id).get();
+        IrregularVerb irregularVerb = irregularVerbService.findById(id).orElseThrow();
         loginedUser.addIrregularVerbToLearnt(irregularVerb);
     }
 
-    // @Transactional
+
     public void removeIrregularVerbFromLearnt(Long id) {
         User loginedUser = findLoginedUser();
-        IrregularVerb irregularVerb = irregularVerbService.findById(id).get();
+        IrregularVerb irregularVerb = irregularVerbService.findById(id).orElseThrow();
         loginedUser.removeIrregularVerbFromLearnt(irregularVerb);
     }
 

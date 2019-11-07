@@ -40,7 +40,13 @@ public class AuthenticationRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
+    public ResponseEntity login(@Valid @RequestBody AuthenticationRequestDto requestDto, Errors errors) {
+
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().
+                    body(ValidationErrorBuilder.fromBindingErrors(errors));
+        }
+
         try {
             String username = requestDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));

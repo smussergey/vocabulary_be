@@ -1,4 +1,4 @@
-package com.le.app.service.storage;
+package com.le.app.util.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -18,12 +18,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service
-public class FileSystemStorageService implements StorageService {
+public class FileSystemStorageServiceImpl implements StorageService {
 
     private final Path rootLocation;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
+    public FileSystemStorageServiceImpl(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 

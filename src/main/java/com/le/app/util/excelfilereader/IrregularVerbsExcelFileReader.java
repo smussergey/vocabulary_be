@@ -1,4 +1,4 @@
-package com.le.app.service.excelfilereader;
+package com.le.app.util.excelfilereader;
 
 import com.le.app.model.IrregularVerb;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class IrregularVerbsExcelFileReader {
-    public static final String FILE_PATH = "./InitialData.xlsx";
+    public static final String FILE_PATH = "./InitialData.xlsx"; //Todo redo this file should be upload from frontent
 
     public ArrayList<IrregularVerb> parseExcelFile() throws IOException, InvalidFormatException {
 
