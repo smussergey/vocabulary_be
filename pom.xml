@@ -19,7 +19,7 @@
         <java.version>11</java.version>
         <mysql.connetor.version>8.0.15</mysql.connetor.version>
         <jsonwebtoken.version>0.8.0</jsonwebtoken.version>
-        <apache.poi.version>4.1.0</apache.poi.version>
+        <apache.poi.version>4.1.1</apache.poi.version>
         <apache.poi-ooxml.version>4.1.0</apache.poi-ooxml.version>
     </properties>
 
